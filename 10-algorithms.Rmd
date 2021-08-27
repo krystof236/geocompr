@@ -1,5 +1,7 @@
 # Scripts, algorithms and functions {#algorithms}
 
+**Note: this is the first edition of Geocomputation with R, first published in 2019 and with minor updates since then until summer 2021. For the Second Edition of Geocomputation with R, due for publication in 2022, see [geocompr.robinlovelace.net](https://geocompr.robinlovelace.net/).**
+
 ## Prerequisites {-}
 
 This chapter primarily uses base R; the **sf**\index{sf} package is used to check the result of an algorithm we will develop.

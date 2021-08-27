@@ -1,5 +1,7 @@
 # Bridges to GIS software {#gis}
 
+**Note: this is the first edition of Geocomputation with R, first published in 2019 and with minor updates since then until summer 2021. For the Second Edition of Geocomputation with R, due for publication in 2022, see [geocompr.robinlovelace.net](https://geocompr.robinlovelace.net/).**
+
 ## Prerequisites {-}
 
 - This chapter requires QGIS\index{QGIS}, SAGA\index{SAGA} and GRASS\index{GRASS} to be installed and the following packages to be attached:^[

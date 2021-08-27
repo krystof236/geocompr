@@ -4,6 +4,8 @@
 
 # Introduction {#intro}
 
+**Note: this is the first edition of Geocomputation with R, first published in 2019 and with minor updates since then until summer 2021. For the Second Edition of Geocomputation with R, due for publication in 2022, see [geocompr.robinlovelace.net](https://geocompr.robinlovelace.net/).**
+
 This book is about using the power of computers to *do things* with geographic data.
 It teaches a range of spatial skills, including: reading, writing and manipulating geographic data; making static and interactive maps; applying geocomputation\index{geocomputation} to solve real-world problems; and modeling geographic phenomena.
 By demonstrating how various geographic operations can be linked, in reproducible 'code chunks' that intersperse the prose, the book also teaches a transparent and thus scientific workflow.
