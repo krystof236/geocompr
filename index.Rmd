@@ -29,9 +29,7 @@ is_html = knitr::is_html_output()
 ```{asis index-2, echo=is_html}
 # Welcome {-}
 
-**Note: this is the first edition of Geocomputation with R, first published in 2019 and with minor updates since then until summer 2021. For the Second Edition of Geocomputation with R, due for publication in 2022, see [geocompr.robinlovelace.net](https://geocompr.robinlovelace.net/).**
-
-This is the online home of *Geocomputation with R*, a book on geographic data analysis, visualization and modeling.
+This is the online home of the First edition of *Geocomputation with R*, a book on geographic data analysis, visualization and modeling, first published in 2019. See geocompr.robinlovelace.net for the Second Edition, due for publication in 2022.
 
 
 <a href="https://www.crcpress.com/9781138304512"><img src="images/cover.png" width="250" height="375" alt="The geocompr book cover" align="right" style="margin: 0 1em 0 1em" /></a>
