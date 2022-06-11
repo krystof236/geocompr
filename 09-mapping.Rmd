@@ -8,7 +8,7 @@
 
 ```{r 08-mapping-1, message=FALSE }
 library(sf)
-library(raster)
+library(terra)
 library(dplyr)
 library(spData)
 library(spDataLarge)
@@ -16,10 +16,20 @@ library(spDataLarge)
 
 - In addition, it uses the following visualization packages (also install shiny if you want to develop interactive mapping applications):
 
+```{r, echo=FALSE, eval=FALSE}
+remotes::install_github("r-tmap/tmap@v4")
+```
+
 ```{r 08-mapping-2, message=FALSE}
 library(tmap)    # for static and interactive maps
 library(leaflet) # for interactive maps
 library(ggplot2) # tidyverse data visualization package
+```
+
+- You also need to read in a couple of datasets as follows for Section \@ref(spatial-ras):
+
+```{r 04-spatial-operations-1-1}
+nz_elev = rast(system.file("raster/nz_elev.tif", package = "spDataLarge"))
 ```
 
 ## Introduction
@@ -56,22 +66,24 @@ Finally, Section \@ref(other-mapping-packages) covers a range of alternative map
 
 \index{map making!static maps}
 Static maps are the most common type of visual output from geocomputation.
-Standard formats include `.png` and `.pdf` for raster and vector outputs respectively.
+Standard formats include `.png` and `.pdf` for raster and vector outputs, respectively.
 Initially, static maps were the only type of maps that R could produce.
-Things advanced with the release of **sp** [see @pebesma_classes_2005] and many techniques for map making have been developed since then.
-However, despite the innovation of interactive mapping, static plotting was still the emphasis of geographic data visualisation in R a decade later [@cheshire_spatial_2015].
+Things have advanced with the release of **sp** [see @pebesma_classes_2005], and many map-making techniques have been developed since then.
+However, despite the innovation of interactive mapping, static plotting was still the emphasis of geographic data visualization in R a decade later [@cheshire_spatial_2015].
 
 The generic `plot()` function is often the fastest way to create static maps from vector and raster spatial objects (see sections \@ref(basic-map) and \@ref(basic-map-raster)).
 Sometimes, simplicity and speed are priorities, especially during the development phase of a project, and this is where `plot()` excels.
 The base R approach is also extensible, with `plot()` offering dozens of arguments.
-Another approach is the **grid** package which allows low level control of static maps, as illustrated in Chapter [14](https://www.stat.auckland.ac.nz/~paul/RG2e/chapter14.html) of @murrell_r_2016.
-This section focuses on **tmap** and emphasizes the important aesthetic and layout options.
+Another approach is the **grid** package which allows low-level control of static maps, as illustrated in Chapter [14](https://www.stat.auckland.ac.nz/~paul/RG2e/chapter14.html) of @murrell_r_2016.
+This section focuses on **tmap** and emphasizes the essential aesthetic and layout options.
 
 \index{tmap (package)}
 **tmap** is a powerful and flexible map-making package with sensible defaults.
 It has a concise syntax that allows for the creation of attractive maps with minimal code which will be familiar to **ggplot2** users.
 It also has the unique capability to generate static and interactive maps using the same code via `tmap_mode()`.
-Finally, it accepts a wider range of spatial classes (including `raster` objects) than alternatives such as **ggplot2** (see the vignettes [`tmap-getstarted`](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) and [`tmap-changes-v2`](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-changes-v2.html), as well as @tennekes_tmap_2018, for further documentation).
+Finally, it accepts a wider range of spatial classes (including **sf** and **terra** objects) than alternatives such as **ggplot2** (see the vignettes [`tmap-getstarted`](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html) and [`tmap-changes-v2`](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-changes-v2.html), as well as @tennekes_tmap_2018, for further documentation).
+<!--toDo:jn-->
+<!-- update the above vignettes links -->
 
 ### tmap basics
 
@@ -124,12 +136,12 @@ map_nz = tm_shape(nz) + tm_polygons()
 class(map_nz)
 ```
 
-`map_nz` can be plotted later, for example by adding additional layers (as shown below) or simply running `map_nz` in the console, which is equivalent to `print(map_nz)`.
+`map_nz` can be plotted later, for example, by adding additional layers (as shown below) or simply running `map_nz` in the console, which is equivalent to `print(map_nz)`.
 
 New *shapes* can be added with `+ tm_shape(new_obj)`.
-In this case `new_obj` represents a new spatial object to be plotted on top of preceding layers.
+In this case, `new_obj` represents a new spatial object to be plotted on top of preceding layers.
 When a new shape is added in this way, all subsequent aesthetic functions refer to it, until another new shape is added.
-This syntax allows the creation of maps with multiple shapes and layers, as illustrated in the next code chunk which uses the function `tm_raster()` to plot a raster layer (with `alpha` set to make the layer semi-transparent):
+This syntax allows the creation of maps with multiple shapes and layers, as illustrated in the next code chunk, which uses the function `tm_raster()` to plot a raster layer (with `alpha` set to make the layer semi-transparent):
 
 ```{r 08-mapping-5, results='hide'}
 map_nz1 = map_nz +
