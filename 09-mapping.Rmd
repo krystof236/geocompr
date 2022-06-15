@@ -185,7 +185,8 @@ The plots in the previous section demonstrate **tmap**'s default aesthetic setti
 Gray shades are used for `tm_fill()` and  `tm_bubbles()` layers and a continuous black line is used to represent lines created with `tm_lines()`.
 Of course, these default values and other aesthetics can be overridden.
 The purpose of this section is to show how.
-
+<!--toDo:jn-->
+<!--to update!!-->
 There are two main types of map aesthetics: those that change with the data and those that are constant.
 Unlike **ggplot2**, which uses the helper function `aes()` to represent variable aesthetics, **tmap** accepts aesthetic arguments directly.
 To map a variable to an aesthetic, pass its column name to the corresponding argument, and to set a fixed aesthetic, pass the desired value instead.^[
@@ -195,12 +196,12 @@ The most commonly used aesthetics for fill and border layers include color, tran
 The impact of setting these with fixed values is illustrated in Figure \@ref(fig:tmstatic).
 
 ```{r tmstatic, message=FALSE, fig.cap="The impact of changing commonly used fill and border aesthetics to fixed values.", fig.scap="The impact of changing commonly used aesthetics."}
-ma1 = tm_shape(nz) + tm_fill(col = "red")
-ma2 = tm_shape(nz) + tm_fill(col = "red", alpha = 0.3)
+ma1 = tm_shape(nz) + tm_fill(fill = "red")
+ma2 = tm_shape(nz) + tm_fill(fill = "red", fill_alpha = 0.3)
 ma3 = tm_shape(nz) + tm_borders(col = "blue")
 ma4 = tm_shape(nz) + tm_borders(lwd = 3)
 ma5 = tm_shape(nz) + tm_borders(lty = 2)
-ma6 = tm_shape(nz) + tm_fill(col = "red", alpha = 0.3) +
+ma6 = tm_shape(nz) + tm_fill(fill = "red", fill_alpha = 0.3) +
   tm_borders(col = "blue", lwd = 3, lty = 2)
 tmap_arrange(ma1, ma2, ma3, ma4, ma5, ma6)
 ```
@@ -214,11 +215,14 @@ qtm(nz, "red")
 ```
 
 Like base R plots, arguments defining aesthetics can also receive values that vary.
+<!--toDo:jn-->
+<!--recheck!-->
+
 Unlike the base R code below (which generates the left panel in Figure \@ref(fig:tmcol)), **tmap** aesthetic arguments will not accept a numeric vector:
 
 ```{r 08-mapping-9, eval=FALSE}
 plot(st_geometry(nz), col = nz$Land_area)  # works
-tm_shape(nz) + tm_fill(col = nz$Land_area) # fails
+tm_shape(nz) + tm_fill(fill = nz$Land_area) # fails
 #> Error: Fill argument neither colors nor valid variable name(s)
 ```
 
@@ -226,21 +230,23 @@ Instead `col` (and other aesthetics that can vary such as `lwd` for line layers 
 Thus, one would achieve the desired result as follows (plotted in the right-hand panel of Figure \@ref(fig:tmcol)):
 
 ```{r 08-mapping-10, fig.show='hide', message=FALSE}
-tm_shape(nz) + tm_fill(col = "Land_area")
+tm_shape(nz) + tm_fill(fill = "Land_area")
 ```
 
 ```{r tmcol, message=FALSE, fig.cap="Comparison of base (left) and tmap (right) handling of a numeric color field.", fig.scap="Comparison of base graphics and tmap", echo=FALSE, out.width="45%", fig.show='hold', warning=FALSE, message=FALSE}
 plot(nz["Land_area"])
-tm_shape(nz) + tm_fill(col = "Land_area")
+tm_shape(nz) + tm_fill(fill = "Land_area")
 ```
 
+<!--toDo:jn-->
+<!--rewrite to explain .legend-->
 An important argument in functions defining aesthetic layers such as `tm_fill()` is `title`, which sets the title of the associated legend.
 The following code chunk demonstrates this functionality by providing a more attractive name than the variable name `Land_area` (note the use of `expression()` to create superscript text):
 
 ```{r 08-mapping-11}
 legend_title = expression("Area (km"^2*")")
 map_nza = tm_shape(nz) +
-  tm_fill(col = "Land_area", title = legend_title) + tm_borders()
+  tm_fill(fill = "Land_area", fill.legend = tm_legend(title = "legend_title")) + tm_borders()
 ```
 
 ### Color settings
@@ -248,6 +254,8 @@ map_nza = tm_shape(nz) +
 \index{tmap (package)!color breaks}
 Color settings are an important part of map design.
 They can have a major impact on how spatial variability is portrayed as illustrated in Figure \@ref(fig:tmpal).
+<!--toDo:jn-->
+<!--rewrite to explain .scale-->
 This shows four ways of coloring regions in New Zealand depending on median income, from left to right (and demonstrated in the code chunk below):
 
 - The default setting uses 'pretty' breaks, described in the next paragraph
@@ -256,11 +264,11 @@ This shows four ways of coloring regions in New Zealand depending on median inco
 - `palette` defines the color scheme, for example `BuGn`
 
 ```{r 08-mapping-12, eval=FALSE}
-tm_shape(nz) + tm_polygons(col = "Median_income")
+tm_shape(nz) + tm_polygons(fill = "Median_income")
 breaks = c(0, 3, 4, 5) * 10000
-tm_shape(nz) + tm_polygons(col = "Median_income", breaks = breaks)
-tm_shape(nz) + tm_polygons(col = "Median_income", n = 10)
-tm_shape(nz) + tm_polygons(col = "Median_income", palette = "BuGn")
+tm_shape(nz) + tm_polygons(fill = "Median_income", fill.scale = breaks)
+tm_shape(nz) + tm_polygons(fill = "Median_income", fill.scale = 10)
+tm_shape(nz) + tm_polygons(fill = "Median_income", palette = "BuGn")
 ```
 
 ```{r tmpal, message=FALSE, fig.cap="Illustration of settings that affect color settings. The results show (from left to right): default settings, manual breaks, n breaks, and the impact of changing the palette.", fig.scap="Illustration of settings that affect color settings.", echo=FALSE, fig.asp=0.56}
