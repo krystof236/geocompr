@@ -287,6 +287,19 @@ Here are six of the most useful break styles:
 - `style = "cont"` (and `"order"`) present a large number of colors over continuous color fields and are particularly suited for continuous rasters (`"order"` can help visualize skewed distributions);
 - `style = "cat"` was designed to represent categorical values and assures that each category receives a unique color.
 
+```{r, echo=FALSE, eval=FALSE}
+library(tmap)
+tm_scale_rgb()
+tm_scale_ordinal()
+tm_scale_intervals()
+tm_scale_discrete()
+tm_scale_continuous_log1p()
+tm_scale_continuous_log()
+tm_scale_continuous()
+tm_scale_categorical()
+```
+
+
 ```{r break-styles, message=FALSE, fig.cap="Illustration of different binning methods set using the style argument in tmap.", , fig.scap="Illustration of different binning methods using tmap.", echo=FALSE}
 source("https://github.com/Robinlovelace/geocompr/raw/main/code/09-break-styles.R", print.eval = TRUE)
 ```
