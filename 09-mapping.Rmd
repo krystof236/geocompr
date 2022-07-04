@@ -334,23 +334,24 @@ Their main purpose is to visualize the difference from an important reference po
 The reference point's value can be adjusted in **tmap** using the `midpoint` argument.
 
 ```{r colpal, echo=FALSE, message=FALSE, fig.cap="Examples of categorical, sequential and diverging palettes.", out.width="50%"}
-library(RColorBrewer)
 many_palette_plotter = function(color_names, n, titles){
   n_colors = length(color_names)
   ylim = c(0, n_colors)
   par(mar = c(0, 5, 0, 0))
   plot(1, 1, xlim = c(0, max(n)), ylim = ylim,
        type = "n", axes = FALSE, bty = "n", xlab = "", ylab = "")
-  
   for(i in seq_len(n_colors)){
-    one_color = brewer.pal(n = n, name = color_names[i])
+    if (color_names[i] %in% hcl.pals()){
+         one_color = hcl.colors(n = n, palette = color_names[i])
+    } else if (color_names[i] %in% palette.pals()){
+         one_color = palette.colors(n = n, palette = color_names[i])
+    }
     rect(xleft = 0:(n - 1), ybottom = i - 1, xright = 1:n, ytop = i - 0.2,
          col = one_color, border = "light gray")
     }
   text(rep(-0.1, n_colors), (1: n_colors) - 0.6, labels = titles, xpd = TRUE, adj = 1)
 }
-
-many_palette_plotter(c("PRGn", "YlGn", "Set2"), 7, 
+many_palette_plotter(c("PRGn", "YlGn", "Set 2"), 7, 
                      titles = c("Diverging", "Sequential", "Categorical"))
 ```
 
