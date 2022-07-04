@@ -141,11 +141,11 @@ class(map_nz)
 New *shapes* can be added with `+ tm_shape(new_obj)`.
 In this case, `new_obj` represents a new spatial object to be plotted on top of preceding layers.
 When a new shape is added in this way, all subsequent aesthetic functions refer to it, until another new shape is added.
-This syntax allows the creation of maps with multiple shapes and layers, as illustrated in the next code chunk, which uses the function `tm_raster()` to plot a raster layer (with `alpha` set to make the layer semi-transparent):
+This syntax allows the creation of maps with multiple shapes and layers, as illustrated in the next code chunk, which uses the function `tm_raster()` to plot a raster layer (with `col_alpha` set to make the layer semi-transparent):
 
 ```{r 08-mapping-5, results='hide'}
 map_nz1 = map_nz +
-  tm_shape(nz_elev) + tm_raster(alpha = 0.7)
+  tm_shape(nz_elev) + tm_raster(col_alpha = 0.7)
 ```
 
 Building on the previously created `map_nz` object, the preceding code creates a new map object `map_nz1` that contains another shape (`nz_elev`) representing average elevation across New Zealand (see Figure \@ref(fig:tmlayers), left).
@@ -301,7 +301,7 @@ tm_scale_categorical()
 
 
 ```{r break-styles, message=FALSE, fig.cap="Illustration of different binning methods set using the style argument in tmap.", , fig.scap="Illustration of different binning methods using tmap.", echo=FALSE}
-source("https://github.com/Robinlovelace/geocompr/raw/main/code/09-break-styles.R", print.eval = TRUE)
+# source("https://github.com/Robinlovelace/geocompr/raw/main/code/09-break-styles.R", print.eval = TRUE)
 ```
 
 ```{block2 break-style-note, type='rmdnote'}
@@ -355,6 +355,8 @@ many_palette_plotter(c("PRGn", "YlGn", "Set 2"), 7,
                      titles = c("Diverging", "Sequential", "Categorical"))
 ```
 
+<!--toDo:jn-->
+<!-- cols4all -->
 There are two important principles for consideration when working with colors: perceptibility and accessibility.
 Firstly, colors on maps should match our perception. 
 This means that certain colors are viewed through our experience and also cultural lenses.
@@ -458,7 +460,7 @@ urb_1970_2030 = urban_agglomerations |>
 tm_shape(world) +
   tm_polygons() +
   tm_shape(urb_1970_2030) +
-  tm_symbols(col = "black", border.col = "white", size = "population_millions") +
+  tm_symbols(fill = "black", col = "white", size = "population_millions") +
   tm_facets(by = "year", nrow = 2, free.coords = FALSE)
 ```
 
@@ -495,7 +497,8 @@ This is a place where the most important message is stated.
 
 ```{r 08-mapping-17}
 nz_height_map = tm_shape(nz_elev, bbox = nz_region) +
-  tm_raster(style = "cont", palette = "YlGn", legend.show = TRUE) +
+  tm_raster(col = tm_scale_continuous(values = "YlGn"),
+            col.scale = "cont") +
   tm_shape(nz_height) + tm_symbols(shape = 2, col = "red", size = 1) +
   tm_scale_bar(position = c("left", "bottom"))
 ```
