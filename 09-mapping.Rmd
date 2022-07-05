@@ -529,7 +529,7 @@ It is very important to find the best projection for each individual inset in th
 We can use US National Atlas Equal Area for the map of the contiguous United States by putting its EPSG code in the `projection` argument of `tm_shape()`.
 
 ```{r 08-mapping-19}
-us_states_map = tm_shape(us_states, projection = 2163) + tm_polygons() + 
+us_states_map = tm_shape(us_states, crs = "EPSG:2163") + tm_polygons() + 
   tm_layout(frame = FALSE)
 ```
 
@@ -586,15 +586,15 @@ source("https://github.com/Robinlovelace/geocompr/raw/main/code/09-urban-animati
 The animated map illustrated in Figure \@ref(fig:urban-animated) can be created using the same **tmap** techniques that generate faceted maps, demonstrated in Section \@ref(faceted-maps).
 There are two differences, however, related to arguments in `tm_facets()`:
 
-- `along = "year"` is used instead of `by = "year"`.
+- `pages = "year"` is used instead of `by = "year"`.
 - `free.coords = FALSE`, which maintains the map extent for each map iteration.
 
 These additional arguments are demonstrated in the subsequent code chunk:
 
 ```{r 08-mapping-22}
 urb_anim = tm_shape(world) + tm_polygons() + 
-  tm_shape(urban_agglomerations) + tm_dots(size = "population_millions") +
-  tm_facets(along = "year", free.coords = FALSE)
+  tm_shape(urban_agglomerations) + tm_symbols(size = "population_millions") +
+  tm_facets(pages = "year", free.coords = FALSE)
 ```
 
 The resulting `urb_anim` represents a set of separate maps for each year.
@@ -700,18 +700,27 @@ knitr::include_graphics("figures/mapview.png")
 # mv@map
 ```
 
-**mapview** has a concise syntax yet is powerful. By default, it provides some standard GIS functionality such as mouse position information, attribute queries (via pop-ups), scale bar, and zoom-to-layer buttons.
-It offers advanced controls including the ability to 'burst' datasets into multiple layers and the addition of multiple layers with `+` followed by the name of a geographic object. 
-Additionally, it provides automatic coloring of attributes (via argument `zcol`).
+<!--toDo:jn-->
+<!-- wait for the terra support -->
+<!-- https://github.com/r-spatial/mapview/issues/340 -->
+
+**mapview** has a concise syntax yet is powerful.
+By default, it has some standard GIS functionality such as mouse position information, attribute queries (via pop-ups), scale bar, and zoom-to-layer buttons.
+It also offers advanced controls including the ability to 'burst' datasets into multiple layers and the addition of multiple layers with `+` followed by the name of a geographic object. 
+Additionally, it provides automatic coloring of attributes via the `zcol` argument.
 In essence, it can be considered a data-driven **leaflet** API\index{API} (see below for more information about **leaflet**). 
-Given that **mapview** always expects a spatial object (`sf`, `Spatial*`, `Raster*`) as its first argument, it works well at the end of piped expressions. 
+Given that **mapview** always expects a spatial object (including `sf` and `SpatRaster`) as its first argument, it works well at the end of piped expressions. 
+<!--toDo:jn-->
+<!-- add a sentence or two about what is going on below -->
 Consider the following example where **sf** is used to intersect lines and polygons and then is visualized with **mapview** (Figure \@ref(fig:mapview2)).
 
 ```{r 08-mapping-30, eval=FALSE}
+library(mapview)
+oberfranken = subset(franconia, district == "Oberfranken")
 trails |>
-  st_transform(st_crs(franconia)) |>
-  st_intersection(franconia[franconia$district == "Oberfranken", ]) |>
-  st_collection_extract("LINE") |>
+  st_transform(st_crs(oberfranken)) |>
+  st_intersection(oberfranken) |>
+  st_collection_extract("LINESTRING") |>
   mapview(color = "red", lwd = 3, layer.name = "trails") +
   mapview(franconia, zcol = "district", burst = TRUE) +
   breweries
@@ -735,14 +744,13 @@ knitr::include_graphics("figures/mapview-example.png")
 <!-- add more info about mapview improved performance ("mapview can use all of them by setting e.g. `mapviewOptions(platform = "leafgl"/"mapdeck")` or `mapviewOptions(georaster = TRUE)`") -->
 
 One important thing to keep in mind is that **mapview** layers are added via the `+` operator (similar to **ggplot2** or **tmap**). 
-This is a frequent [gotcha](https://en.wikipedia.org/wiki/Gotcha_(programming)) in piped workflows where the main binding operator is `|>`.
 For further information on **mapview**, see the package's website at: [r-spatial.github.io/mapview/](https://r-spatial.github.io/mapview/articles/).
 
 There are other ways to create interactive maps with R.
 The **googleway** package\index{googleway (package)}, for example, provides an interactive mapping interface that is flexible and extensible
 (see the [`googleway-vignette`](https://cran.r-project.org/web/packages/googleway/vignettes/googleway-vignette.html) for details).
 Another approach by the same author is **[mapdeck](https://github.com/SymbolixAU/mapdeck)**, which provides access to Uber's `Deck.gl` framework\index{mapdeck (package)}.
-Its use of WebGL enables it to interactively visualize large datasets (up to millions of points).
+Its use of WebGL enables it to interactively visualize large datasets up to millions of points.
 The package uses Mapbox [access tokens](https://www.mapbox.com/help/how-access-tokens-work/), which you must register for before using the package.
 
 ```{block2 08-mapping-31, type='rmdnote'}
@@ -752,7 +760,7 @@ This can be added with `edit_r_environ()` from the **usethis** package.
 
 A unique feature of **mapdeck** is its provision of interactive '2.5d' perspectives, illustrated in Figure \@ref(fig:mapdeck).
 This means you can can pan, zoom and rotate around the maps, and view the data 'extruded' from the map.
-Figure \@ref(fig:mapdeck), generated by the following code chunk, visualizes road traffic crashes in the UK, with bar height respresenting casualties per area.
+Figure \@ref(fig:mapdeck), generated by the following code chunk, visualizes road traffic crashes in the UK, with bar height representing casualties per area.
 
 ```{r 08-mapping-32, engine='zsh', echo=FALSE, eval=FALSE}
 https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv
@@ -768,18 +776,18 @@ crash_data = na.omit(crash_data)
 ms = mapdeck_style("dark")
 mapdeck(style = ms, pitch = 45, location = c(0, 52), zoom = 4) |>
   add_grid(data = crash_data, lat = "lat", lon = "lng", cell_size = 1000,
-         elevation_scale = 50, layer_id = "grid_layer",
-         colour_range = viridisLite::plasma(6))
+           elevation_scale = 50, layer_id = "grid_layer",
+           colour_range = hcl.colors(6, "plasma"))
 ```
 
 ```{r mapdeck, echo=FALSE, fig.cap="Map generated by mapdeck, representing road traffic casualties across the UK. Height of 1 km cells represents number of crashes.", fig.scap="Map generated by mapdeck."}
 knitr::include_graphics("figures/mapdeck-mini.png")
 ```
 
-In the browser you can zoom and drag, in addition to rotating and tilting the map when pressing `Cmd`/`Ctrl`.
-Multiple layers can be added with the `|>` operator, as demonstrated in the [`mapdeck` vignette](https://cran.r-project.org/web/packages/mapdeck/vignettes/mapdeck.html). 
+You can zoom and drag the map in the browser, in addition to rotating and tilting it when pressing `Cmd`/`Ctrl`.
+Multiple layers can be added with the pipe operator, as demonstrated in the [`mapdeck` vignettes](https://cran.r-project.org/web/packages/mapdeck/vignettes/mapdeck.html). 
 
-Mapdeck also supports `sf` objects, as can be seen by replacing the `add_grid()` function call in the preceding code chunk with `add_polygon(data = lnd, layer_id = "polygon_layer")`, to add polygons representing London to an interactive tilted map.
+**mapdeck** also supports `sf` objects, as can be seen by replacing the `add_grid()` function call in the preceding code chunk with `add_polygon(data = lnd, layer_id = "polygon_layer")`, to add polygons representing London to an interactive tilted map.
 
 ```{r 08-mapping-35, eval=FALSE, echo=FALSE}
 library(mapdeck)
