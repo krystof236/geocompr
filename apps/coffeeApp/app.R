@@ -21,7 +21,7 @@ ui = fluidPage(
 
 server = function(input, output, session) {
   
-  map_centre = st_centroid(world %>% filter(name_long == "Brazil")) %>% 
+  map_centre = st_centroid(world |> filter(name_long == "Brazil")) |> 
     st_coordinates()
   
   # This reactive expression returns a character string representing the selected variable
@@ -38,19 +38,19 @@ server = function(input, output, session) {
   
   output$map = renderLeaflet({
     # Things that do not change go here:
-    leaflet() %>% addTiles() %>%
+    leaflet() |> addTiles() |>
       setView(lng = map_centre[, "X"], map_centre[, "Y"], zoom = 2)
   })
   
   # Changes to the map performed in an observer
   observe({
-    proxy = leafletProxy("map", data = filteredData()) %>% 
+    proxy = leafletProxy("map", data = filteredData()) |> 
       clearShapes()
     # Show or hide legend
-    proxy %>% clearControls() %>% addPolygons(fillColor = ~pal(Production))
+    proxy |> clearControls() |> addPolygons(fillColor = ~pal(Production))
     if (input$legend) {
-      proxy %>% addLegend(position = "bottomright",
-                          pal = pal, values = ~Production)
+      proxy |> addLegend(position = "bottomright",
+                         pal = pal, values = ~Production)
     }
   })
 }
