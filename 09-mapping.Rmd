@@ -869,10 +869,12 @@ But the web mapping approach to interactivity has limitations:
 - Additional layers of interactivity, such a graphs showing relationships between variables and 'dashboards' are difficult to create using the web-mapping approach
 
 Overcoming these limitations involves going beyond static web mapping and towards geospatial frameworks and map servers.
-Products in this field include [GeoDjango](https://docs.djangoproject.com/en/2.0/ref/contrib/gis/)\index{GeoDjango} (which extends the Django web framework and is written in [Python](https://github.com/django/django))\index{Python}, [MapGuide](https://www.osgeo.org/projects/mapguide-open-source/)\index{MapGuide} (a framework for developing web applications, largely written in [C++](https://trac.osgeo.org/mapguide/wiki/MapGuideArchitecture))\index{C++} and [GeoServer](https://github.com/geoserver/geoserver) (a mature and powerful map server written in [Java](https://github.com/geoserver/geoserver)\index{Java}).
+Products in this field include [GeoDjango](https://docs.djangoproject.com/en/4.0/ref/contrib/gis/)\index{GeoDjango} (which extends the Django web framework and is written in [Python](https://github.com/django/django))\index{Python}, [MapServer](https://github.com/mapserver/mapserver)\index{MapServer} (a framework for developing web applications, largely written in C and C++)\index{C++} and [GeoServer](https://github.com/geoserver/geoserver) (a mature and powerful map server written in Java\index{Java}).
 Each of these (particularly GeoServer) is scalable, enabling maps to be served to thousands of people daily --- assuming there is sufficient public interest in your maps!
 The bad news is that such server-side solutions require much skilled developer time to set-up and maintain, often involving teams of people with roles such as a dedicated geospatial database administrator ([DBA](https://wiki.gis.com/wiki/index.php/Database_administrator)).
 
+<!--toDo:jn-->
+<!-- consider using tmap<>shiny instead of leaflet<>shiny -->
 The good news is that web mapping applications can now be rapidly created using **shiny**\index{shiny (package)}, a package for converting R code into interactive web applications.
 This is thanks to its support for interactive maps via functions such as `renderLeaflet()`, documented on the [Shiny integration](https://rstudio.github.io/leaflet/shiny.html) section of RStudio's **leaflet** website.
 This section gives some context, teaches the basics of **shiny** from a web mapping perspective and culminates in a full-screen mapping application in less than 100 lines of code.
@@ -932,7 +934,7 @@ The example contains some of the components of a web mapping application impleme
 The `CycleHireApp/app.R` script contains **shiny** functions that go beyond those demonstrated in the simple 'lifeApp' example.
 These include `reactive()` and `observe()` (for creating outputs that respond to the user interface --- see `?reactive`) and `leafletProxy()` (for modifying a `leaflet` object that has already been created).
 Such elements are critical to the creation of web mapping applications implemented in **shiny**.
-A range of 'events' can be programmed including advanced functionality such as drawing new layers or subsetting data, as described in the shiny section of RStudio's **leaflet** [website.](https://rstudio.github.io/leaflet/shiny.html)
+A range of 'events' can be programmed including advanced functionality such as drawing new layers or subsetting data, as described in the shiny section of RStudio's **leaflet** [website](https://rstudio.github.io/leaflet/shiny.html).
 
 ```{block2 shinynote, type='rmdnote'}
 There are a number of ways to run a **shiny** app.
@@ -945,8 +947,10 @@ Experimenting with apps such as `CycleHireApp` will build not only your knowledg
 Changing the contents of `setView()`, for example, will change the starting bounding box that the user sees when the app is initiated.
 Such experimentation should not be done at random, but with reference to relevant documentation, starting with `?shiny`, and motivated by a desire to solve problems such as those posed in the exercises.
 
+<!--toDo:rl-->
+<!--add shiny deployment options (even a link!)-->
 **shiny** used in this way can make prototyping mapping applications faster and more accessible than ever before (deploying **shiny** apps is a separate topic beyond the scope of this chapter).
-Even if your applications are eventually deployed using different technologies, **shiny** undoubtedly allows web mapping applications to be developed in relatively few lines of code (76 in the case of CycleHireApp).
+Even if your applications are eventually deployed using different technologies, **shiny** undoubtedly allows web mapping applications to be developed in relatively few lines of code (87 in the case of CycleHireApp).
 That does not stop shiny apps getting rather large.
 The Propensity to Cycle Tool (PCT) hosted at [pct.bike](https://www.pct.bike/), for example, is a national mapping tool funded by the UK's Department for Transport.
 The PCT is used by dozens of people each day and has multiple interactive elements based on more than 1000 lines of [code](https://github.com/npct/pct-shiny/blob/master/regions_www/m/server.R) [@lovelace_propensity_2017].
@@ -956,11 +960,13 @@ One potential problem with the ease of developing prototypes with **shiny** is t
 For that reason, despite advocating **shiny**, we recommend starting with the longer established technology of a pen and paper as the first stage for interactive mapping projects.
 This way your prototype web applications should be limited not by technical considerations, but by your motivations and imagination.
 
-```{r CycleHireApp-html, echo=FALSE, message=FALSE, fig.cap="Hire a cycle App, a simple web mapping application for finding the closest cycle hiring station based on your location and requirement of cycles. Interactive version available online at geocompr.robinlovelace.net.",fig.scap="Cycle Hire App, a simple web mapping application.", eval=knitr::is_html_output(), out.width="600"}
-
+```{r CycleHireApp-html, echo=FALSE, message=FALSE, fig.cap="Hire a cycle App, a simple web mapping application for finding the closest cycle hiring station based on your location and requirement of cycles. Interactive version available online at geocompr.robinlovelace.net.",fig.scap="Cycle Hire App, a simple web mapping application.", eval=knitr::is_html_output(), out.width="690"}
 knitr::include_app("https://shiny.robinlovelace.net/CycleHireApp/")
 ```
 
+<!--toDo:rl-->
+<!-- !!!!! -->
+<!--the image is missing!!-->
 ```{r CycleHireApp-latex, echo=FALSE, message=FALSE, fig.cap="Hire a cycle App, a simple web mapping application for finding the closest cycle hiring station based on your location and requirement of cycles. Interactive version available online at geocompr.robinlovelace.net.", fig.scap="coffeeApp, a simple web mapping application.", eval=knitr::is_latex_output()}
 knitr::include_graphics("figures/CycleHireApp-2.png")
 ```
