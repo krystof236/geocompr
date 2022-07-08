@@ -1,11 +1,12 @@
 package,published,title,depends_count,suggests_count,tidyverse_happy,has_vignette_build,has_tests,reverse_count,dl_last_month,ci,test_coverage,stars,forks,last_commit,last_issue_closed,contributors
-cartography,2021-10-07,Thematic Cartography,1,6,FALSE,TRUE,TRUE,2,2440,NONE,CodeCov,375,44,19.933333333333334,7.666666666666667,7
-ggplot2,2021-06-25,Create Elegant Data Visualisations Using the Grammar of Graphics,1,22,TRUE,TRUE,TRUE,3482,2623427,NONE,CodeCov,5.4k,1.8k,0.13333333333333333,0.03333333333333333,270
-googleway,2022-01-24,Accesses Google Maps APIs to Retrieve Data and Plot Maps,1,3,TRUE,TRUE,TRUE,2,4304,Travis,CodeCov,208,40,0.16666666666666666,51.2,5
-ggspatial,2021-01-04,Spatial Data Framework for ggplot2,1,14,TRUE,FALSE,TRUE,6,7611,NONE,CodeCov,303,29,15.833333333333334,6.4,9
+sf,2022-03-07,Simple Features for R,2,29,TRUE,TRUE,TRUE,361,1825506,NONE,CodeCov,1k,252,0.03333333333333333,0.06666666666666667,90
+ggplot2,2022-05-03,Create Elegant Data Visualisations Using the Grammar of Graphics,1,22,TRUE,TRUE,TRUE,3579,2784169,NONE,CodeCov,5.5k,1.9k,0.03333333333333333,0.03333333333333333,274
+googleway,2022-01-24,Accesses Google Maps APIs to Retrieve Data and Plot Maps,1,3,TRUE,TRUE,TRUE,2,3722,Travis,CodeCov,211,41,1.0333333333333334,0,5
+ggspatial,2021-01-04,Spatial Data Framework for ggplot2,1,14,TRUE,FALSE,TRUE,6,7340,NONE,CodeCov,312,31,0,2,10
 leaflet,2022-03-23,"Create Interactive Web Maps with the JavaScript 'Leaflet'
-Library",1,10,TRUE,FALSE,TRUE,84,124355,NONE,NONE,717,475,1.0333333333333334,1.1333333333333333,35
-mapview,2022-04-16,Interactive Viewing of Spatial Data in R,2,13,FALSE,FALSE,TRUE,11,22800,NONE,CodeCov,416,86,0.26666666666666666,0.16666666666666666,20
-plotly,2021-10-09,Create Interactive Web Graphics via 'plotly.js',2,24,TRUE,FALSE,TRUE,284,428634,NONE,NONE,2.2k,600,0.9666666666666667,27,41
-rasterVis,2022-01-23,Visualization Methods for Raster Data,3,5,FALSE,FALSE,FALSE,15,12757,NONE,NONE,68,19,73.3,1.6,4
-tmap,2022-03-02,Thematic Maps,2,14,TRUE,TRUE,TRUE,12,22553,Appveyor,NONE,650,101,1.2333333333333334,17.2,24
+Library",1,10,TRUE,FALSE,TRUE,82,100200,NONE,NONE,730,484,0.2,0.16666666666666666,36
+mapview,2022-04-16,Interactive Viewing of Spatial Data in R,2,13,FALSE,FALSE,TRUE,11,21686,NONE,CodeCov,432,88,51.06666666666667,0.7333333333333333,20
+plotly,2021-10-09,Create Interactive Web Graphics via 'plotly.js',2,24,TRUE,FALSE,TRUE,293,474911,NONE,NONE,2.2k,603,2.1666666666666665,36.766666666666666,44
+rasterVis,2022-01-23,Visualization Methods for Raster Data,3,5,FALSE,FALSE,FALSE,14,10232,NONE,NONE,72,21,75.8,1.2,4
+tmap,2022-03-02,Thematic Maps,2,14,TRUE,TRUE,TRUE,14,18193,Appveyor,NONE,669,106,2.466666666666667,19.7,25
+tidyterra,2022-06-21,'tidyverse' Methods and 'ggplot2' Utils for 'terra' Objects,1,8,TRUE,TRUE,TRUE,0,545,NONE,CodeCov,78,1,0.5666666666666667,NA,0

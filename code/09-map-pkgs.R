@@ -3,7 +3,7 @@ remotes::install_github("ropenscilabs/packagemetrics")
 
 # generic mapping packages ------------------------------------------------
 generic_map_pkgs = c(
-  "cartography",
+  "sf",
   "ggplot2",
   "googleway",
   "ggspatial",
@@ -11,7 +11,8 @@ generic_map_pkgs = c(
   "mapview",
   "plotly",
   "rasterVis",
-  "tmap"
+  "tmap",
+  "tidyterra"
 )
 generic_map_pkgs = packagemetrics::package_list_metrics(generic_map_pkgs)
 # pkg_table = packagemetrics::metrics_table(pkg_df)
@@ -23,7 +24,8 @@ specific_map_pkgs = c(
   "geogrid",
   "geofacet",
   "globe",
-  "linemap"
+  "linemap",
+  "rayshader"
 )
 
 specific_map_pkgs = packagemetrics::package_list_metrics(specific_map_pkgs)
