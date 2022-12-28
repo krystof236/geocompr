@@ -242,7 +242,7 @@ In this case, there is only one feature in the `y` object `polygon_sfc` so the r
 
 `st_intersects()` returns `TRUE` even in cases where the features just touch: *intersects* is a 'catch-all' topological operation which identifies many types of spatial relation, as illustrated in Figure \@ref(fig:relations).
 More restrictive questions include which points lie within the polygon, and which features are on or contain a shared boundary with `y`?
-These can be answered as follows (results not show):
+These can be answered as follows (results not shown):
 
 ```{r 04-spatial-operations-9-2, eval=FALSE}
 st_within(point_sf, polygon_sfc)
